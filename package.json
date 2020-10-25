@@ -1,0 +1,14 @@
+{
+  "name": "vwa-authenticationserver",
+  "version": "1.0.0",
+  "description": "Das ist der Authentification-Server für mein Spiel, welches ich für die VWA programmiere.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
