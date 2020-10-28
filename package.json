@@ -4,12 +4,12 @@
   "description": "Das ist der Authentification-Server für mein Spiel, welches ich für die VWA programmiere.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "author": "",
   "license": "UNLICENSED",
   "dependencies": {
-    "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "mysql": "^2.18.1"
   }
