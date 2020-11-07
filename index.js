@@ -17,11 +17,15 @@ var con = mysql.createConnection({
 	database: "database",
 });
 con.connect(function (err) {
-	if (err) throw err;
+	if (err) return
 	console.log("Connected!");
 });
 
 app.get("/register", function (req, res) {
+	if (req.body === undefined) {
+		res.send(unexpected_error);
+		return;
+	}
 	let username = req.body.username;
 	let password = req.body.password;
 
@@ -62,6 +66,10 @@ app.get("/register", function (req, res) {
 });
 
 app.get("/login", function (req, res) {
+	if (req.body === undefined) {
+		res.send(unexpected_error);
+		return;
+	}
 	let username = req.body.username;
 	let password = req.body.password;
 
@@ -98,6 +106,6 @@ app.get("/login", function (req, res) {
 	});
 });
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
 	console.log(`AuthenticationServer listening on port ${port}.`);
 });
