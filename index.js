@@ -29,6 +29,11 @@ app.get("/register", function (req, res) {
 	let username = req.query.username;
 	let password = req.query.password;
 
+	if (username == undefined || password == undefined) {
+		res.send(unexpected_error);
+		return;
+	}
+
 	con.query("SELECT * FROM players WHERE username = ?", [username], function (
 		err,
 		result
@@ -73,6 +78,11 @@ app.get("/login", function (req, res) {
 	let username = req.query.username;
 	let password = req.query.password;
 
+	if (username == undefined || password == undefined) {
+		res.send(unexpected_error);
+		return;
+	}
+
 	con.query("SELECT * FROM players WHERE username = ?", [username], function (
 		err,
 		result
@@ -88,7 +98,7 @@ app.get("/login", function (req, res) {
 		}
 		Object.keys(result).forEach(function (key) {
 			var row = result[key];
-			bcrypt.compare(password, row. q, function (err, result) {
+			bcrypt.compare(password, row.password, function (err, result) {
 				if (err) {
 					console.log(err);
 					res.send(unexpected_error);
