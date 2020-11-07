@@ -22,12 +22,12 @@ con.connect(function (err) {
 });
 
 app.get("/register", function (req, res) {
-	if (req.body === undefined) {
+	if (req.query === undefined) {
 		res.send(unexpected_error);
 		return;
 	}
-	let username = req.body.username;
-	let password = req.body.password;
+	let username = req.query.username;
+	let password = req.query.password;
 
 	con.query("SELECT * FROM players WHERE username = ?", [username], function (
 		err,
@@ -66,12 +66,12 @@ app.get("/register", function (req, res) {
 });
 
 app.get("/login", function (req, res) {
-	if (req.body === undefined) {
+	if (req.query === undefined) {
 		res.send(unexpected_error);
 		return;
 	}
-	let username = req.body.username;
-	let password = req.body.password;
+	let username = req.query.username;
+	let password = req.query.password;
 
 	con.query("SELECT * FROM players WHERE username = ?", [username], function (
 		err,
