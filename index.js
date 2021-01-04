@@ -133,7 +133,7 @@ app.get("/tryBuy", function (req, res) {
 
 	let username = req.query.username;
 	let item = req.query.username + ";";
-	let price = req.query.price;
+	let price = parseInt(req.query.price);
 
 	if (username == undefined || item == undefined || price == undefined) {
 		res.send(unexpected_error);
@@ -141,7 +141,7 @@ app.get("/tryBuy", function (req, res) {
 	}
 
 	con.query(
-		"UPDATE players SET money = money - ?, items = items + ? WHERE username = ? and money > ?",
+		"UPDATE players SET money = money - ?, items = items + ? WHERE username = ? AND money > ?",
 		[price, item, username, price],
 		function (err, result) {
 			if (err) {
