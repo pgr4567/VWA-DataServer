@@ -129,9 +129,9 @@ app.get("/tryBuy", function (req, res) {
 		return;
 	}
 
-	let username = req.body.username;
-	let item = req.body.username + ";";
-	let price = req.body.price;
+	let username = req.query.username;
+	let item = req.query.username + ";";
+	let price = req.query.price;
 
 	if (username == undefined || item == undefined || price == undefined) {
 		res.send(unexpected_error);
@@ -163,8 +163,8 @@ app.get("/addMoney", function (req, res) {
 		return;
 	}
 
-	let username = req.body.username;
-	let amount = req.body.amount;
+	let username = req.query.username;
+	let amount = req.query.amount;
 
 	if (username == undefined || amount == undefined) {
 		res.send(unexpected_error);
@@ -196,7 +196,7 @@ app.get("/getInventory", function (req, res) {
 		return;
 	}
 
-	let username = req.body.username;
+	let username = req.query.username;
 
 	if (username == undefined) {
 		res.send(unexpected_error);
@@ -217,6 +217,6 @@ app.get("/getInventory", function (req, res) {
 	});
 });
 
-app.listen(port, '127.0.0.1', () => {
+app.listen(port, '0.0.0.0', () => {
 	console.log(`AuthenticationServer listening on port ${port}.`);
 });
