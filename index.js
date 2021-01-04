@@ -215,7 +215,11 @@ app.get("/getInventory", function (req, res) {
 			res.send(username_not_exist);
 			return;
 		}
-		res.send(result.items);
+		Object.keys(result).forEach(function (key) {
+			var row = result[key];
+			res.send(row.items);
+			return;
+		});
 	});
 });
 
@@ -242,7 +246,11 @@ app.get("/getMoney", function (req, res) {
 			res.send(username_not_exist);
 			return;
 		}
-		res.send(result.money);
+		Object.keys(result).forEach(function (key) {
+			var row = result[key];
+			res.send(row.money);
+			return;
+		});
 	});
 });
 
