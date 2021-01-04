@@ -141,7 +141,7 @@ app.get("/tryBuy", function (req, res) {
 	}
 
 	con.query(
-		"UPDATE players SET money = money - ?, items = CONCAT(items, ?) WHERE username = ? AND money > ?",
+		"UPDATE players SET money = money - ?, items = CONCAT_WS(items, ?) WHERE username = ? AND money >= ?",
 		[price, item, username, price],
 		function (err, result) {
 			if (err) {
