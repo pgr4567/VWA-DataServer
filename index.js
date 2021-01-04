@@ -248,7 +248,7 @@ app.get("/getMoney", function (req, res) {
 		}
 		Object.keys(result).forEach(function (key) {
 			var row = result[key];
-			res.send(row.money);
+			res.send("$" + row.money);
 			return;
 		});
 	});
