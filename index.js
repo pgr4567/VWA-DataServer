@@ -132,7 +132,7 @@ app.get("/tryBuy", function (req, res) {
 	}
 
 	let username = req.query.username;
-	let item = req.query.username + ";";
+	let item = req.query.item + ";";
 	let price = parseInt(req.query.price);
 
 	if (username == undefined || item == undefined || price == undefined) {
