@@ -2,6 +2,7 @@ const express = require("express");
 const mysql = require("mysql");
 const bcrypt = require("bcryptjs");
 const fs = require("fs");
+const crypto = require("crypto");
 
 const app = express();
 const port = 3000;
@@ -12,6 +13,7 @@ const try_buy_error = "ERROR: USERNAME DOES NOT EXIST OR NOT ENOUGH BALANCE";
 const invalid_username_password = "ERROR: INVALID USERNAME OR PASSWORD";
 const username_not_exist = "ERROR: USERNAME DOES NOT EXIST";
 const unexpected_error = "UNEXPECTED ERROR";
+const session_update_error = "ERROR: SESSION TOKEN COULD NOT BE UPDATED";
 const saltRounds = 10;
 
 let connParams = JSON.parse(fs.readFileSync("./conn.json"));
@@ -258,6 +260,70 @@ app.get("/version", function (req, res) {
 	res.send(fs.readFileSync("./version.txt"));
 });
 
-app.listen(port, '0.0.0.0', () => {
+app.get("/getSessionToken", function (req, res) {
+	if (req.query === undefined) {
+		res.send(unexpected_error);
+		return;
+	}
+
+	let username = req.query.username;
+
+	if (username == undefined) {
+		res.send(unexpected_error);
+		return;
+	}
+
+	con.query("SELECT * FROM players WHERE username = ?", [username], function (err, result) {
+		if (err) {
+			console.log(err);
+			res.send(unexpected_error);
+			return;
+		}
+		if (Object.keys(result).length == 0) {
+			res.send(username_not_exist);
+			return;
+		}
+		Object.keys(result).forEach(function (key) {
+			var row = result[key];
+			res.send(row.session);
+			return;
+		});
+	});
+});
+
+app.get("/generateSessionToken", function (req, res) {
+	if (req.query === undefined) {
+		res.send(unexpected_error);
+		return;
+	}
+
+	let username = req.query.username;
+
+	if (username == undefined) {
+		res.send(unexpected_error);
+		return;
+	}
+
+	let sessionToken = generateSessionToken();
+	con.query("UPDATE players SET session = ? WHERE username = ?", [sessionToken, username], function (err, result) {
+		if (err) {
+			console.log(err);
+			res.send(unexpected_error);
+			return;
+		}
+		if (result.affectedRows == 0) {
+			res.send(session_update_error);
+			return;
+		}
+		res.send(success);
+		return;
+	});
+});
+
+function generateSessionToken() {
+	return crypto.randomBytes(32).toString("base64");
+}
+
+app.listen(port, '127.0.0.1', () => {
 	console.log(`AuthenticationServer listening on port ${port}.`);
 });
