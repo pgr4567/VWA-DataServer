@@ -361,6 +361,10 @@ app.get("/generateSessionToken", function (req, res) {
 	});
 });
 
+app.get("/maxSessionTime", function (req, res) {
+	res.send("T" + max_session_time_in_hours);
+});
+
 function generateSessionToken() {
 	return crypto.randomBytes(32).toString("base64");
 }
