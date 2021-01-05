@@ -287,9 +287,7 @@ app.get("/getSessionToken", function (req, res) {
 		}
 		Object.keys(result).forEach(function (key) {
 			var row = result[key];
-			var t = row.session_time.split(/[- :]/);
-			var date = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]));
-			if (isValidSessionTime(date)) {
+			if (isValidSessionTime(row.session_time)) {
 				res.send(row.session);
 				return;
 			}
@@ -366,7 +364,7 @@ app.get("/maxSessionTime", function (req, res) {
 });
 
 function generateSessionToken() {
-	return crypto.randomBytes(32).toString("base64");
+	return crypto.randomBytes(24).toString("base64");
 }
 
 function isValidSessionTime (date) {
@@ -376,6 +374,6 @@ function isValidSessionTime (date) {
     return date > lastTime;
 }
 
-app.listen(port, '127.0.0.1', () => {
+app.listen(port, '0.0.0.0', () => {
 	console.log(`AuthenticationServer listening on port ${port}.`);
 });
