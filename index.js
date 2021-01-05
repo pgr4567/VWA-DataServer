@@ -254,6 +254,10 @@ app.get("/getMoney", function (req, res) {
 	});
 });
 
+app.get("/version", function (req, res) {
+	res.send(fs.readFileSync("./version.txt"));
+});
+
 app.listen(port, '0.0.0.0', () => {
 	console.log(`AuthenticationServer listening on port ${port}.`);
 });
