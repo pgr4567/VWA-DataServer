@@ -14,7 +14,9 @@ const invalid_username_password = "ERROR: INVALID USERNAME OR PASSWORD";
 const username_not_exist = "ERROR: USERNAME DOES NOT EXIST";
 const unexpected_error = "UNEXPECTED ERROR";
 const session_update_error = "ERROR: SESSION TOKEN COULD NOT BE UPDATED";
+const session_time_invalid = "ERROR: SESSION TIME IS INVALID";
 const saltRounds = 10;
+const max_session_time_in_hours = 24
 
 let connParams = JSON.parse(fs.readFileSync("./conn.json"));
 var con = mysql.createConnection({
@@ -285,8 +287,16 @@ app.get("/getSessionToken", function (req, res) {
 		}
 		Object.keys(result).forEach(function (key) {
 			var row = result[key];
-			res.send(row.session);
-			return;
+			var t = row.session_time.split(/[- :]/);
+			var date = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]));
+			if (isValidSessionTime(date)) {
+				res.send(row.session);
+				return;
+			}
+			else {
+				res.send(session_time_invalid);
+				return;
+			}
 		});
 	});
 });
@@ -305,7 +315,7 @@ app.get("/generateSessionToken", function (req, res) {
 	}
 
 	let sessionToken = generateSessionToken();
-	con.query("UPDATE players SET session = ? WHERE username = ?", [sessionToken, username], function (err, result) {
+	con.query("UPDATE players SET session = ?, session_time = NOW() WHERE username = ?", [sessionToken, username], function (err, result) {
 		if (err) {
 			console.log(err);
 			res.send(unexpected_error);
@@ -322,6 +332,13 @@ app.get("/generateSessionToken", function (req, res) {
 
 function generateSessionToken() {
 	return crypto.randomBytes(32).toString("base64");
+}
+
+function isValidSessionTime (date) {
+    const time = 1000 * 60 * 60 * max_session_time_in_hours;
+    const lastTime = Date.now() - time;
+
+    return date > lastTime;
 }
 
 app.listen(port, '127.0.0.1', () => {
