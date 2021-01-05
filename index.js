@@ -301,6 +301,37 @@ app.get("/getSessionToken", function (req, res) {
 	});
 });
 
+app.get("/getSessionTokenTime", function (req, res) {
+	if (req.query === undefined) {
+		res.send(unexpected_error);
+		return;
+	}
+
+	let username = req.query.username;
+
+	if (username == undefined) {
+		res.send(unexpected_error);
+		return;
+	}
+
+	con.query("SELECT * FROM players WHERE username = ?", [username], function (err, result) {
+		if (err) {
+			console.log(err);
+			res.send(unexpected_error);
+			return;
+		}
+		if (Object.keys(result).length == 0) {
+			res.send(username_not_exist);
+			return;
+		}
+		Object.keys(result).forEach(function (key) {
+			var row = result[key];
+			res.send(row.session_time);
+			return;
+		});
+	});
+});
+
 app.get("/generateSessionToken", function (req, res) {
 	if (req.query === undefined) {
 		res.send(unexpected_error);
