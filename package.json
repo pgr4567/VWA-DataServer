@@ -1,16 +1,18 @@
 {
-  "name": "vwa-authenticationserver",
+  "name": "vwa-versionserver",
   "version": "1.0.0",
-  "description": "Das ist der Authentification-Server für mein Spiel, welches ich für die VWA programmiere.",
-  "main": "index.js",
+  "description": "Das ist der Version-Server für mein Spiel, welches ich für die VWA programmiere.",
+  "main": "./dist/index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "tsc && node ./dist/index.js"
   },
   "author": "",
   "license": "UNLICENSED",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "express": "^4.17.1",
-    "mysql": "^2.18.1"
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "typescript": "^4.3.5"
   }
 }

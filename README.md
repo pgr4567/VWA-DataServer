@@ -1,2 +1,2 @@
-# VWA-AuthenticationServer
-Das ist der Authentication-Server für das Spiel, das ich für meine VWA entwickle.
+# VWA-VersionServer
+Das ist der Version-Server für das Spiel, das ich für meine VWA entwickle.
