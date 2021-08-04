@@ -1,7 +1,7 @@
 {
-  "name": "vwa-versionserver",
+  "name": "vwa-dataserver",
   "version": "1.0.0",
-  "description": "Das ist der Version-Server für mein Spiel, welches ich für die VWA programmiere.",
+  "description": "Das ist der Data-Server für mein Spiel, welches ich für die VWA programmiere.",
   "main": "./dist/index.js",
   "scripts": {
     "start": "tsc && node ./dist/index.js"
